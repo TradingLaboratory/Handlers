@@ -22,25 +22,43 @@ namespace TSLab.TraidingLaboratory.Indicators
 
     [Description("Фрактал на покупку – серия из N последовательных баров, в которой перед самым высоким максимумом и за ним находятся по (N-1)/2 бара с более низкими максимумами. " +
         "Имеет числовой выход. Отображается в виде кривой, значение меняется в момент срабатывания условия. " +
-        "Left – количество баров слева до фрактала, Right – количество баров справа до фрактала" +
+        "Left – количество баров слева до фрактала, " +
+        "Right – количество баров справа до фрактала" +
 "CurrentBar – учитывать текущий i-ый бар при расчете: 0 – i-ый бар учитывается, 1 – i-ый бар НЕ учитывается" +
 "Fractal – выдавать значение на баре с фракталом: 0 – значение выдается на текущем баре, 1 – значение выдается на баре с фракталом" +
 "Обсуждение в Telegram -  канал Лаборатория Трейдинга ( http://t.me/TradingLaboratory )")] //на русском
 
     public class FractalBuyDouble : IBar2DoubleHandler, IContextUses
 	{
-		[HandlerParameter(true, "5", Min = "1", Max = "20", Step = "1", Name ="Свечей вправо")]
+        /// <summary>
+        /// Right – количество баров справа до фрактала
+        /// </summary>
+        [HandlerParameter(true, "5", Min = "1", Max = "20", Step = "1", Name ="Свечей вправо")]
 		public int Right { get; set; }
-		
-		[HandlerParameter(true, "5", Min = "1", Max = "20", Step = "5", Name ="Свечей влево")]
+
+        /// <summary>
+        /// Left – количество баров слева до фрактала
+        /// </summary>
+        [HandlerParameter(true, "5", Min = "1", Max = "20", Step = "5", Name ="Свечей влево")]
 		public int Left { get; set; }
-		
-		[HandlerParameter(true, "0", Min = "0", Max = "1", Step = "1", Name ="Текущий бар")]
+
+        /// <summary>
+        /// CurrentBar – учитывать текущий i-ый бар при расчете: 0 – i-ый бар учитывается, 1 – i-ый бар НЕ учитывается
+        /// </summary>
+        [HandlerParameter(true, "0", Min = "0", Max = "1", Step = "1", Name ="Текущий бар")]
 		public int CurrentBar { get; set; }
-		
-		[HandlerParameter(true, "0", Min = "0", Max = "1", Step = "1", Name ="Фрактал")]
+
+        /// <summary>
+        /// Fractal – выдавать значение на баре с фракталом: 0 – значение выдается на текущем баре, 1 – значение выдается на баре с фракталом (заглядывание в будущее)
+        /// </summary>
+        [HandlerParameter(true, "0", Min = "0", Max = "1", Step = "1", Name ="Фрактал")]
 		public int Fractal { get; set; }
 		
+        /// <summary>
+        /// Создаёт список чисел, для каждой свечи отображающий где был последний верхний сформированный фрактал
+        /// </summary>
+        /// <param name="symbol">Финансовый инструмент</param>
+        /// <returns></returns>
 		public IList<double> Execute(ISecurity symbol)
 		{
 		    var High = symbol.HighPrices;
