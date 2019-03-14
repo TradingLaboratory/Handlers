@@ -40,14 +40,14 @@ namespace TSLab.TraidingLaboratory.Indicators
     #endregion
 
     public class BarNumberIfDifferentList : 
-        IDouble2DoubleHandler, 
-        IOneSourceHandler, 
-        IStreamHandler, 
-        IHandler, 
-        IDoubleInputs,
-        IContextUses,
-        INeedVariableName,
-        IDoubleReturns
+        IDouble2DoubleHandler, //Создать список чисел из другого списка чисел
+        IOneSourceHandler, //Обработчик с одним источником данных
+        IStreamHandler, //Обработчик работает с потоками
+        IHandler, //Базовый интерфейс обработчика
+        IDoubleInputs, //Среди входящих чисел есть списки чисел
+        IContextUses, //Обработчик использует данные кеша
+        INeedVariableName, //Уникальное имя для кеширования
+        IDoubleReturns //Будет возвращён список чисел
     {
         private TSLab.Script.Handlers.IContext context;
 
